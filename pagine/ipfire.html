@@ -32,7 +32,7 @@
 <p>per abilitare l'accesso a ipfire da internet:</p>
  
 <code>$ iptables -A CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</code>
-<p> la porta sarà raggiungibile fino al prossimo riavvio del sistema. Per bloccare l'accesso:/p>       
+<p> la porta sarà raggiungibile fino al prossimo riavvio del sistema. Per bloccare l'accesso:</p>       
 <code>$ iptables -D CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</code>
 
 </div>
