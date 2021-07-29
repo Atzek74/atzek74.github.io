@@ -31,12 +31,6 @@
     
  
   <div class="col-3 menu">
-    <ul>
-      <li class="active">Avvio Nodo</li>
- <!--     <li><a href="">Avvio Nodo</a></li> -->
-      <li><a href="">-getinfo</a></li>
-      <li><a href="">...</a></li>
-    </ul>
   </div>
 
   <div class="col-9">
@@ -58,6 +52,27 @@
     <br>
     <h3>-getinfo</h3>
     <code>$ bitcoin-cli -getinfo</code>
+    <br>
+    
+    <pre>
+    {
+  "version": 200100,
+  "blocks": 693280,
+  "headers": 693280,
+  "verificationprogress": 0.9999996588606316,
+  "timeoffset": 0,
+  "connections": 7,
+  "proxy": "",
+  "difficulty": 13672594272814.14,
+  "chain": "main",
+  "balance": 0.00000000,
+  "keypoolsize": 1000,
+  "paytxfee": 0.00000000,
+  "relayfee": 0.00001000,
+  "warnings": "Warning: unknown new rules activated (versionbit 2)"
+}
+    </pre>
+    <br>
         <code>$ bitcoin-cli getblockchaininfo</code> 
         <br><code>$ bitcoin-cli getrawmempool</code>
         <br><code>$ bitcoin-cli -getinfo</code>
