@@ -87,3 +87,10 @@ img{
     padding: 15px;
     text-align: center;
 }
+
+a {
+    text-decoration: none;
+}
+a:link{
+ color: #ffffff;
+}
