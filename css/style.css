@@ -21,7 +21,7 @@
 [class*="col-"] {
   float: left;
   padding: 15px;
-  border: solid black 1px;
+/*  border: solid black 1px;*/
 }
 
 .col-1 {width: 8.33%;}
@@ -81,7 +81,7 @@ img{
 }
 
 
-.giu{
+footer{
     background-color: #33b5e5;
     color: white;
     padding: 15px;
@@ -95,5 +95,5 @@ a:link{
  color: #ffffff;
 }
 .active{
-    background:#996633 !important; 
+    background:#0099cc !important; 
 }

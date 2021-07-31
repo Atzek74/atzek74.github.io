@@ -17,9 +17,9 @@
 <div class="row">
       <div class="col-12 menu">
         <ul>
-          <li><a href="../index">Home</a></li>
-	  <li><a href="ipfire">ipFire</a></li>
-	  <li>Bitcoin core</li>
+          <li><a href="../index.html">Home</a></li>
+	  <li><a href="ipfire.html">ipFire</a></li>
+	  <li class="active">Bitcoin core</li>
           <li>...</li>
           <li>...</li>
           <li>...</li>
@@ -35,23 +35,27 @@
 
   <div class="col-9">
 -->
-<div>
+<div class="col-2 row"></div>
+
+<div class="col-8 row">
     
-    <h3>Avvio nodo</h3>
+    <h2>Avvio nodo</h2>
     <p>per avviare il demone:</p>
     <code>$ bitcoind</code>
     <p>le impostazioni verranno prese dal file di configurazione presente in $USER/.bitcoin/bitcoin.conf. 
-        Le eventuali impostazioni inserite da riga di comando hanno la precedenza sul file di configurazione. 
-        <br>Per stoppare il demone:</p>
+        Le eventuali impostazioni inserite da riga di comando hanno la precedenza sul file di configurazione.</p>
+    <p>Per stoppare il demone:</p>
     <code>$ bitcoin-cli stop</code>
     <br>
     
-    <p><b>esempio bitcoin.conf</b></p>
-    <pre>daemon=1
-txindex=1
-datadir=/bitcoindata/bitcoin
-maxconnections=7
+    <p>Esempio di file <b>bitcoin.conf</b></p>
+    <pre>
+daemon=1                        # avvia il demone in background
+txindex=1                       # senza questa riga non funziona il comando getrawtransaction
+datadir=/bitcoindata/bitcoin    # directory dove sono salvati i dati
+maxconnections=7                # numero massimo di connessioni
 </pre>
+    <br>
     
     <h3>-getinfo</h3>
     <code>$ bitcoin-cli -getinfo</code>
@@ -72,9 +76,7 @@ maxconnections=7
   "relayfee": 0.00001000,
   "warnings": "Warning: unknown new rules activated (versionbit 2)"
 }
-<br>
-
-    </pre>
+</pre>
     <br>
     <h3>getblockchaininfo</h3>
     <code>$ bitcoin-cli getblockchaininfo</code>
@@ -89,7 +91,7 @@ maxconnections=7
   "verificationprogress": 0.9999961220617765,
   "initialblockdownload": false,
   "chainwork": "00000000000000000000000000000000000000001ff039cd483ee740e5d15c38",
-  "size_on_disk": 405248736603,
+  "size_on_disk": <mark>405248736603</mark>,
   "pruned": false,
   "softforks": {
     "bip34": {
@@ -121,15 +123,17 @@ maxconnections=7
   "warnings": "Warning: unknown new rules activated (versionbit 2)"
 }
 </pre>
+    
 <br>
-<h3>Ispezioniamo il blocco genesi</h3>
+<h2>Ispezioniamo il blocco genesi</h2>
+<br>
     <h3>getblockhash</h3>
-    <code>$ bitcoin-cli getblockhash 0</code>
+    <pre>$ bitcoin-cli getblockhash <mark>0</mark></pre>
     <br>
     <code>000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code>
     <br>
     <h3>getblockheader</h3>
-    <code>bitcoin-cli getblockheader 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code> 
+    <code>$ bitcoin-cli getblockheader 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code> 
     <br>
     <pre>{
   "hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
@@ -152,10 +156,8 @@ maxconnections=7
    
      
     <h3>getblock</h3>
-    <code>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
-</code>
     <br>
-    <pre>bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
+    <pre>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
 {
   "hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
   "confirmations": 693552,
@@ -184,9 +186,10 @@ maxconnections=7
 }
 </pre>    
     <br>
-    <p>nel blocco genesi non posso usare getrawtransaction $TXid (true per avere output json),
+    <p>nel blocco genesi non posso usare <b>getrawtransaction</b> $TXid (true per avere output json),
     devo aumentare la verbosità dell'istruzione getblock</p>
-    <code>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f <mark>2</mark>
+    <br>
+    <code>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f <mark>true</mark>
 </code>
     <br>
     <pre>{
@@ -212,7 +215,7 @@ maxconnections=7
       "locktime": 0,
       "vin": [
         {
-          "coinbase": "<mark style="background-color: orange">04ffff001d0104</mark><mark>455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73</mark>",
+          "coinbase": "<mark style="background-color: orange">04ffff001d010445</mark><mark>5468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73</mark>",
           "sequence": 4294967295
         }
       ],
@@ -243,17 +246,43 @@ maxconnections=7
 }
     </pre>
     <br>
-    <pre>echo 455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73 | xxd -r -p
+    <p>Converto i dati della coinbase da HEX ad ASCII</p>
+    <pre>echo 5468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73 | xxd -r -p
 The Times 03/Jan/2009 Chancellor on brink of second bailout for banks</pre>
     
+ <div>
+    <table>
+        <tr>
+            <th>HEX</th><th>ASCII</th>
+        </tr>   
+        <tr>
+            <td>54</td><td>T</td>
+        </tr>  
+        <tr>
+            <td>68</td><td>h</td>
+        </tr> 
+            <td>65</td><td>e</td>
+        <tr> 
+            <td>20</td><td>[space]</td>
+        </tr>
+        <tr>
+            <td>54</td><td>T</td>
+        </tr>
+        <tr>
+            <td>...</td><td>...</td>
+        </tr>       
+    </table>   
     
     
-  </div>    
+    
+    </div>  
+    </div>
+    <div class="col-2 row"></div>
 </div>
 
-<div class ="giu">
+<footer>
 by Armando       
-</div>  
+</footer>  
     
 </body>
 </html>        
