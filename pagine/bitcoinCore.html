@@ -149,9 +149,8 @@ maxconnections=7
 }</pre>
    
     <br>
-    <br>
-    <img style="float:center" src="../img/ascii.gif" alt="Tabella ascii">
-    <br>
+   
+     
     <h3>getblock</h3>
     <code>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
 </code>
@@ -183,7 +182,7 @@ maxconnections=7
     <br>
     <p>nel blocco genesi non posso usare getrawtransaction $TXid (true per avere output json),
     devo aumentare la verbosità dell'istruzione getblock</p>
-        <code>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
+    <code>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f <mark>2</mark>
 </code>
     <br>
     <pre>{
@@ -235,9 +234,9 @@ maxconnections=7
   "nextblockhash": "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048"
 }
     </pre>
-    
-    <pre>echo 04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73 | xxd -r -p
-��EThe Times 03/Jan/2009 Chancellor on brink of second bailout for banks</pre>
+ <img src="../img/ascii.gif" alt="Tabella ascii">    
+    <pre>echo 455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73 | xxd -r -p
+The Times 03/Jan/2009 Chancellor on brink of second bailout for banks</pre>
     
     
     
