@@ -21,7 +21,7 @@
           <li><a href="../index.html">Home</a></li>
 	  <li class="active">ipFire</li>
 	  <li><a href="bitcoinCore.html">Bitcoin core</a></li>
-          <li>...</li>
+          <li><a href="crittografia.html">Crittografia</a></li>
           <li>...</li>
           <li>...</li>
           <li>...</li>
@@ -29,11 +29,20 @@
         </ul>
       </div>
     </div>    
-<p>per abilitare l'accesso a ipfire da internet:</p>
- 
-<code>$ iptables -A CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</code>
-<p> la porta sarà raggiungibile fino al prossimo riavvio del sistema. Per bloccare l'accesso:</p>       
-<code>$ iptables -D CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</code>
+
+    <div>
+        <p>Ipfire utilizza il firewall di Linux <b>netfilter</b>, configurabile tramite <b>iptables</b>; a seguire un paio di esempi:</p>
+        <p>Per abilitare l'accesso a ipfire da internet:</p>
+        <pre>$ iptables -A CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</pre>
+        <p> La porta sarà raggiungibile fino al prossimo riavvio del sistema. Per bloccare l'accesso:</p>       
+        <pre>$ iptables -D CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</pre>
+    </div>
+    <div>
+        <h3>Monitorare il traffico di rete tramite tshark</h3>
+        <p> -Y per utilizzare i filtri di visualizzazione di wireshark</p>
+        <pre>tshark -Y "ip.addr == 192.168.1.xxx && not ip.addr== xxx.xxx.xxx.xxx && not (tcp.srcport==22 || tcp.dstport==22)"</pre>
+        <p>in questo esempio visializzo il traffico di un host (192.1681.1.xxx) escludendo il traffico del server xxx.xxx.xxx.xxx ed eventuali connessioni ssh. (Connesso a ipfire via ssh, controllo se ci sono perdite in un collegamento VPN; se si verranno visualizzati a video)</p>
+    </div>
 
 </div>
     

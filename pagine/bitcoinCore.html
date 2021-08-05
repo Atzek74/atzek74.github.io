@@ -20,7 +20,7 @@
           <li><a href="../index.html">Home</a></li>
 	  <li><a href="ipfire.html">ipFire</a></li>
 	  <li class="active">Bitcoin core</li>
-          <li>...</li>
+          <li><a href="crittografia.html">Crittografia</a></li>
           <li>...</li>
           <li>...</li>
           <li>...</li>
@@ -41,26 +41,37 @@
     
     <h2>Avvio nodo</h2>
     <p>per avviare il demone:</p>
-    <code>$ bitcoind</code>
+<pre>
+
+$ bitcoind
+
+</pre>
     <p>le impostazioni verranno prese dal file di configurazione presente in $USER/.bitcoin/bitcoin.conf. 
         Le eventuali impostazioni inserite da riga di comando hanno la precedenza sul file di configurazione.</p>
     <p>Per stoppare il demone:</p>
-    <code>$ bitcoin-cli stop</code>
+    <pre>
+
+$ bitcoin-cli stop
+    
+    </pre>
     <br>
     
     <p>Esempio di file <b>bitcoin.conf</b></p>
     <pre>
+
 daemon=1                        # avvia il demone in background
-txindex=1                       # senza questa riga non funziona il comando getrawtransaction
+<code>txindex=1                       # senza questa riga <b>potrebbe non funzionare getrawtransaction</b></code>
 datadir=/bitcoindata/bitcoin    # directory dove sono salvati i dati
 maxconnections=7                # numero massimo di connessioni
 </pre>
     <br>
     
     <h3>-getinfo</h3>
-    <code>$ bitcoin-cli -getinfo</code>
-    <br>
-    <pre>{
+<pre>
+
+$ bitcoin-cli -getinfo
+
+{
   "version": 200100,
   "blocks": 693280,
   "headers": 693280,
@@ -79,9 +90,11 @@ maxconnections=7                # numero massimo di connessioni
 </pre>
     <br>
     <h3>getblockchaininfo</h3>
-    <code>$ bitcoin-cli getblockchaininfo</code>
-    <br>
-    <pre>{
+    <pre>
+
+$ bitcoin-cli getblockchaininfo
+
+{
   "chain": "main",
   "blocks": 693280,
   "headers": 693280,
@@ -128,14 +141,18 @@ maxconnections=7                # numero massimo di connessioni
 <h2>Ispezioniamo il blocco genesi</h2>
 <br>
     <h3>getblockhash</h3>
-    <pre>$ bitcoin-cli getblockhash <mark>0</mark></pre>
-    <br>
-    <code>000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code>
-    <br>
+<pre>
+
+$ bitcoin-cli getblockhash <mark>0</mark>
+    
+000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
+</pre>
     <h3>getblockheader</h3>
-    <code>$ bitcoin-cli getblockheader 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f</code> 
-    <br>
-    <pre>{
+<pre>
+
+$ bitcoin-cli getblockheader 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
+
+{
   "hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
   "confirmations": 693281,
   "height": 0,
@@ -157,7 +174,10 @@ maxconnections=7                # numero massimo di connessioni
      
     <h3>getblock</h3>
     <br>
-    <pre>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
+    <pre>
+
+$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
+
 {
   "hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
   "confirmations": 693552,
@@ -189,12 +209,15 @@ maxconnections=7                # numero massimo di connessioni
     <p>nel blocco genesi non posso usare <b>getrawtransaction</b> $TXid (true per avere output json),
     devo aumentare la verbosità dell'istruzione getblock</p>
     <br>
-    <code>$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f <mark>true</mark>
-</code>
-    <br>
-    <pre>{
+    
+    
+<pre>
+
+$ bitcoin-cli getblock 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f <mark>2</mark>
+
+{
   "hash": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
-  "confirmations": 693558,
+  "confirmations": 693758,
   "strippedsize": 285,
   "size": 285,
   "weight": 1140,
@@ -202,8 +225,6 @@ maxconnections=7                # numero massimo di connessioni
   "version": 1,
   "versionHex": "00000001",
   "merkleroot": "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
-  
-  ****************************
   "tx": [
     {
       "txid": "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
@@ -215,7 +236,8 @@ maxconnections=7                # numero massimo di connessioni
       "locktime": 0,
       "vin": [
         {
-          "coinbase": "<mark style="background-color: orange">04ffff001d010445</mark><mark>5468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73</mark>",
+          "coinbase": "04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e6365
+6c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73",
           "sequence": 4294967295
         }
       ],
@@ -224,17 +246,21 @@ maxconnections=7                # numero massimo di connessioni
           "value": 50.00000000,
           "n": 0,
           "scriptPubKey": {
-            "asm": "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f OP_CHECKSIG",
-            "hex": "4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac",
+            "asm": "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3
+br>f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f OP_CHECKSIG",
+            "hex": "4104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6b
+c3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac",
             "type": "pubkey"
           }
         }
       ],
-      "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff4d04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73ffffffff0100f2052a01000000434104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac00000000"
+      "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff4
+d04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e20627269
+6e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73ffffffff0100f2052a01000000434104678af
+db0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c
+384df7ba0b8d578a4c702b6bf11d5fac00000000"
     }
   ],
-  ****************************
-
   "time": 1231006505,
   "mediantime": 1231006505,
   "nonce": 2083236893,
@@ -244,11 +270,14 @@ maxconnections=7                # numero massimo di connessioni
   "nTx": 1,
   "nextblockhash": "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048"
 }
+
     </pre>
     <br>
     <p>Converto i dati della coinbase da HEX ad ASCII</p>
-    <pre>echo 5468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73 | xxd -r -p
-The Times 03/Jan/2009 Chancellor on brink of second bailout for banks</pre>
+    <pre>echo 5468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66
+207365636f6e64206261696c6f757420666f722062616e6b73 | xxd -r -p
+
+<b>The Times 03/Jan/2009 Chancellor on brink of second bailout for banks</b></pre>
     
  <div>
     <table>

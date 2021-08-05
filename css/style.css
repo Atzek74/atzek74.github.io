@@ -97,3 +97,12 @@ a:link{
 .active{
     background:#0099cc !important; 
 }
+
+pre{
+    /*background-color: #f5f5f5;*/
+    background-color: black;
+    color: green;
+    /*border: 1px solid #ccc;*/
+    border-radius: 4px;
+    padding: 9.5px;
+}
