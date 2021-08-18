@@ -104,7 +104,8 @@ pre{
     color: green;
     /*border: 1px solid #ccc;*/
     border-radius: 4px;
-    padding: 9.5px;
     overflow: auto;
+    padding: 9.5px;
+    
     
 }
