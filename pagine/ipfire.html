@@ -16,12 +16,14 @@
 <div class="content row">
 
 <div class="row">
+      
       <div class="col-12 menu">
         <ul>
           <li><a href="../index.html">Home</a></li>
 	  <li class="active">ipFire</li>
 	  <li><a href="bitcoinCore.html">Bitcoin core</a></li>
           <li><a href="crittografia.html">Crittografia</a></li>
+          <li><a href="script.html">Script</a></li>
           <li>...</li>
           <li>...</li>
           <li>...</li>
@@ -29,20 +31,91 @@
         </ul>
       </div>
     </div>    
-
-    <div>
+    <div class="col-2 row"></div>
+    <div class="col-8">
+        <div>
         <p>Ipfire utilizza il firewall di Linux <b>netfilter</b>, configurabile tramite <b>iptables</b>; a seguire un paio di esempi:</p>
-        <p>Per abilitare l'accesso a ipfire da internet:</p>
+        <p><b>Per abilitare l'accesso</b> a ipfire da internet:</p>
         <pre>$ iptables -A CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</pre>
         <p> La porta sarà raggiungibile fino al prossimo riavvio del sistema. Per bloccare l'accesso:</p>       
         <pre>$ iptables -D CUSTOMINPUT -p tcp --dport 444 -j ACCEPT</pre>
-    </div>
-    <div>
+        <p><b>Per redirigere una porta</b>, devo usare 2 regole: </p>
+        <p>1. imposto la tabella nat per il port forwarding (--dport la porta puntata dall'esterno)</p>
+        <pre>iptables -t nat -A NAT_DESTINATION -p tcp --dport 2xxx2 -j DNAT --to-destination 192.168.1.yy:xxx2</pre>
+        <p>2. imposto la tabella filter per permettere il passaggio del pacchetto</p>
+        <pre>iptables -A FORWARDFW -p tcp --dport xxx2 -d 192.168.1.yy -j ACCEPT</pre>
+        </div>
+   
+
+    
+     <div>
         <h3>Monitorare il traffico di rete tramite tshark</h3>
         <p> -Y per utilizzare i filtri di visualizzazione di wireshark</p>
-        <pre>tshark -Y "ip.addr == 192.168.1.xxx && not ip.addr== xxx.xxx.xxx.xxx && not (tcp.srcport==22 || tcp.dstport==22)"</pre>
+        <pre>tshark -Y "ip.addr == 192.168.1.xxx && not ip.addr== xxx.xxx.xxx.xxx && 
+not (tcp.srcport==22 || tcp.dstport==22)"</pre>
         <p>in questo esempio visializzo il traffico di un host (192.1681.1.xxx) escludendo il traffico del server xxx.xxx.xxx.xxx ed eventuali connessioni ssh. (Connesso a ipfire via ssh, controllo se ci sono perdite in un collegamento VPN; se si verranno visualizzati a video)</p>
     </div>
+        
+        <div>
+            <h3>Configurare openvpn client</h3>
+            <p>da studiare</p>
+
+
+            <pre>
+cat mullvad_config_xx.ovpn | grep -v "tun-ipv6\|update-resolv-conf" 
+| sed s'/ping-restart 60/ping-exit 30/' > mullvad_config_xx.ovpn
+
+echo "modprobe tun" >> /etc/sysconfig/rc.local
+
+echo "/root/mullvad.sh &" >> /etc/sysconfig/rc.local
+
+echo "iptables -I FORWARD ! -o tun0 -m iprage --src-range 192.168.10.100-192.168.10.150 -j DROP" 
+>> /etc/sysconfig/rc.local
+
+echo "iptables -t nat -A POSTROUTING -s 192.168.10.0/24 -o tun0 -j MASQUERADE" 
+>> /etc/sysconfig/rc.local
+
+chmod 755 /root/mullvad.sh
+
+Add mullvad.sh script to /root/.
+
+#!/bin/bash
+     COUNTER=0
+         while [  $COUNTER -lt 1 ]; do
+             openvpn --config /root/mullvad_config_xx.ovpn
+         done
+            </pre>
+            <br>
+            <pre>
+pull-filter ignore "dhcp-option DNS6"
+pull-filter ignore "tun-ipv6"
+pull-filter ignore "ifconfig-ipv6"﻿</pre>
+        
+        </div>
+            <div><h3>Esempio di iptables su Qubes</h3>
+        <p>Configuarazione del firevall in Qubes 4.0 utilizzando Mullvad vpn</p>
+        <pre>
+#!/bin/bash
+# replace 10.137.0.47 with the IP address of your vif* interface
+virtualif=10.137.0.47
+vpndns1=10.8.0.1
+vpndns2=10.14.0.1
+iptables -F OUTPUT                  <font color="yellow"># flush cancella le regole della catena OUTPUT</font>
+iptables -I FORWARD -o eth0 -j DROP <font color="yellow"># ins in FORWARD (riga 1): output da eth0 -j (jump) DROP</font>
+iptables -I FORWARD -i eth0 -j DROP <font color="yellow"># ins in FORWARD (riga 1): input da eth0 -j (jump) DROP</font>
+iptables -F PR-QBS -t nat           <font color="yellow"># cancella le regole della catena PR-QBS della tabella nat</font>
+<font color="yellow">#<br># appendi alla catena PR-QBS della tabella nat le seg. regole:</font>
+<font color="yellow"># destinazione $virtualif, protocollo udp/tcp, porta 53 </font>
+<font color="yellow"># -j (jump) DNAT (regola della tabella nat) $vpndns1/2 </font>
+<font color="yellow">#<br># in teoria... dirotta i pacchetti con destinazione $virtualif verso $vpndns1/2<br>#<br></font>
+iptables -A PR-QBS -t nat -d $virtualif -p udp --dport 53 -j DNAT --to $vpndns1
+iptables -A PR-QBS -t nat -d $virtualif -p tcp --dport 53 -j DNAT --to $vpndns1
+iptables -A PR-QBS -t nat -d $virtualif -p udp --dport 53 -j DNAT --to $vpndns2
+iptables -A PR-QBS -t nat -d $virtualif -p tcp --dport 53 -j DNAT --to $vpndns2
+        </pre>
+    </div>
+    </div>
+    <div class="col-2 row"></div>
 
 </div>
     

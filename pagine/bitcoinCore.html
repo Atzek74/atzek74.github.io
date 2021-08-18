@@ -21,6 +21,7 @@
 	  <li><a href="ipfire.html">ipFire</a></li>
 	  <li class="active">Bitcoin core</li>
           <li><a href="crittografia.html">Crittografia</a></li>
+          <li><a href="script.html">Script</a></li>
           <li>...</li>
           <li>...</li>
           <li>...</li>
@@ -63,6 +64,28 @@ daemon=1                        # avvia il demone in background
 <code>txindex=1                       # senza questa riga <b>potrebbe non funzionare getrawtransaction</b></code>
 datadir=/bitcoindata/bitcoin    # directory dove sono salvati i dati
 maxconnections=7                # numero massimo di connessioni
+</pre>
+    
+    <p>Esempio di file <b>bitcoin.conf</b> per connsessione al demone da remoto</p>
+    <pre>
+
+daemon=1
+txindex=1
+datadir=/bitcoindata/bitcoin
+maxconnections=7
+
+server=1
+rpcuser="username"
+rpcpassword="password"
+rpcbind="indirizzo ip dell'host dove gira il demone"
+rpcallowip=0.0.0.0/0
+rpcport=8332
+
+</pre>
+    <p>Per accedere al nodo tramite comando curl:</p>    
+    <pre>curl --user "username" --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getblockchaininfo", "params": []}' -H 'content-type: text/plain;' http:xxxxxxx:yyyy/</pre>    
+    <p>Per accedere da remoto tramite bitcoin-cli</p>
+    <pre>bitcoin-cli -rpcconnect=xxxxxx  -rpcport=yyyyy -rpcuser="username" -rpcpassword="password" -getinfo
 </pre>
     <br>
     

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="header">
+  <h1>Script vari da studiare</h1>
+</div>
+<div class="content row">
+
+<div class="row">
+      <div class="col-12 menu">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+	  <li><a href="ipfire.html">ipFire</a></li>
+	  <li><a href="bitcoinCore.html">Bitcoin core</a></li>
+          <li><a href="crittografia.html">Crittografia</a></li>
+          <li class="active">Script</li>
+          <li>...</li>
+          <li>...</li>
+          <li>...</li>
+
+        </ul>
+      </div>
+    </div>     
+ <div class="col-2 row"></div>
+    
+<div class="col-8 row">  
+    <p>script vpn <u>da studiare</u></p>
+    <p>script che modifica resolvconf, un framework per la gestione di DNS multipli</p>
+    <pre>
+#!/bin/bash
+# 
+# Parses DHCP options from openvpn to update resolv.conf
+# To use set as 'up' and 'down' script in your openvpn *.conf:
+# 
+# up /etc/openvpn/update-resolv-conf 
+# down /etc/openvpn/update-resolv-conf
+#
+# 
+# Example envs set from openvpn:
+#
+#     foreign_option_1='dhcp-option DNS 193.43.27.132'
+#     foreign_option_2='dhcp-option DNS 193.43.27.133'
+#     foreign_option_3='dhcp-option DOMAIN be.bnc.ch'
+#
+
+[ -x /sbin/resolvconf ] || exit 0
+[ "$script_type" ] || exit 0
+[ "$dev" ] || exit 0
+
+split_into_parts()
+{
+	part1="$1"
+	part2="$2"
+	part3="$3"
+}
+
+case "$script_type" in
+  up)
+	NMSRVRS=""
+	SRCHS=""
+	for optionvarname in ${!foreign_option_*} ; do
+		option="${!optionvarname}"
+		echo "$option"
+		split_into_parts $option
+		if [ "$part1" = "dhcp-option" ] ; then
+			if [ "$part2" = "DNS" ] ; then
+				NMSRVRS="${NMSRVRS:+$NMSRVRS }$part3"
+			elif [ "$part2" = "DOMAIN" ] ; then
+				SRCHS="${SRCHS:+$SRCHS }$part3"
+			fi
+		fi
+	done
+	R=""
+	[ "$SRCHS" ] && R="search $SRCHS
+"
+	for NS in $NMSRVRS ; do
+        	R="${R}nameserver $NS
+"
+	done
+	echo -n "$R" | /sbin/resolvconf -a "${dev}.openvpn"
+	;;
+  down)
+	/sbin/resolvconf <font color="yellow">-d</font> "${dev}.openvpn" <font color="yellow">#cancella l'interfaccia</font>
+	;;
+esac
+
+        
+    </pre>
+    
+</div>
+
+ <div class="col-2 row"></div> 
+</div>    
+<footer>
+by Armando       
+</footer>  
+    
+</body>
+</html>  
