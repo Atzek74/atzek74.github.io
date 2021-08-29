@@ -100,9 +100,13 @@ a:link{
 
 pre{
     /*background-color: #f5f5f5;*/
+
     background-color: graytext;
     color: black;
-    /*border: 1px solid #ccc;*/
+
+    background-color: gray;
+    color: green;
+/*border: 1px solid #ccc;*/
     border-radius: 4px;
     overflow: auto;
     padding: 9.5px;
